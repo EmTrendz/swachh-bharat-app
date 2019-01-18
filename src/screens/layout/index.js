@@ -8,35 +8,34 @@ import {
 } from 'react-native';
 import server from '../../utils/server';
 import { API } from '../../utils/AppConstants';
+import widgets from '../../widgets';
 class Layout extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { name: 'no name' };
+        this.state = { components: [], name: 'no name' };
     }
 
     componentDidMount() {
         let me = this;
+        const { state } = this.props.navigation;
 
-        server.getData(API.ROUTES).then((_routes) => {
-
-            const { state } = this.props.navigation;
-            // console.log(state.params);
-            // console.log('state.params');
-            // console.log(state.params.href);
-
+        server.getData(state.params.components).then((_components) => {
             me.setState({
+                components: _components.data,
                 name: state.params.text
             });
         });
     }
 
     render() {
-        const { name } = this.state;
+        const { name, components } = this.state;
 
         return (
             <ScrollView contentContainerStyle={styles.view}>
                 <Text style={styles.header1}>{name}</Text>
-
+                {
+                    this.renderWidgets(components)
+                }
                 <Text style={styles.photo}>
                     Pigeon Point Lighthouse, Pescadero, California
                 </Text>
@@ -46,12 +45,23 @@ class Layout extends React.Component {
             </ScrollView>
         )
     }
+
+    renderWidgets(components) {
+        return components.map((component) => {
+            let Widget = widgets[component.clientWidget];
+            return Widget ? <Widget
+                key={component.key}
+                configuration={component}
+            ></Widget> :
+                <Text key={component.key} style={styles.photo}>
+                    Widget Not Available
+                </Text>;
+        });
+    }
 }
 
 const styles = StyleSheet.create({
     view: {
-        justifyContent: 'flex-start',
-        alignItems: 'center',
         marginTop: 10,
         padding: 20
     },

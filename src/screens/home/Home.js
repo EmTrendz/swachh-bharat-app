@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, Button } from "react-native";
 import Echarts from 'native-echarts';
 import server from "../../utils/server";
+import EmtChart from "../../widgets/chart/EmtChart";
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -50,11 +51,11 @@ export default class HomeScreen extends React.Component {
     return (
       <View>
         <Echarts option={option} height={300} />
-
         <Button
           title="Go to Jane's profile"
           onPress={() => navigate('Profile', { name: 'Jane' })}
         />
+        <EmtChart></EmtChart>
       </View>
     );
   }

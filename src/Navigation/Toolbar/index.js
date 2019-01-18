@@ -19,10 +19,6 @@ class Toolbar extends React.Component {
 
   render() {
     const { showMenu, goBack, actualRoute } = this.props;
-    debugger;
-    console.log('######################');
-    console.log(actualRoute);
-    
     return (
       <View style={styles.header}>
         <Icon.ToolbarAndroid

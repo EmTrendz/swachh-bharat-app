@@ -96,8 +96,6 @@ export default class AppNavigator extends Component {
 
   render() {
     const { routeStack, routesLoaded } = this.state;
-    console.log('**************');
-    console.log(routeStack[routeStack.length - 1]);
     return routesLoaded && routeStack.length > 0 ? (
       <DrawerLayoutAndroid
         drawerWidth={getDrawerWidth()}
