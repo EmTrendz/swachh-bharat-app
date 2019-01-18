@@ -18,20 +18,23 @@ class Toolbar extends React.Component {
   };
 
   render() {
-    const { showMenu, goBack, actualRouteName } = this.props;
-
+    const { showMenu, goBack, actualRoute } = this.props;
+    debugger;
+    console.log('######################');
+    console.log(actualRoute);
+    
     return (
       <View style={styles.header}>
         <Icon.ToolbarAndroid
-          navIconName={actualRouteName === 'Home' ? 'menu' : 'arrow-left'}
+          navIconName={actualRoute.routeKey === 'Home' ? 'menu' : 'arrow-left'}
           titleColor="#fff"
-          title={actualRouteName}
-          onIconClicked={actualRouteName === 'Home' ? showMenu : goBack }
+          title={actualRoute.routeKey}
+          onIconClicked={actualRoute.routeKey === 'Home' ? showMenu : goBack}
           overflowIconName="dots-vertical"
           style={{ height: 56 }}
           actions={[
-            {title: 'About', show: 'never', iconName: 'information-outline'},
-            {title: 'Credits', show: 'never', iconName: 'account-circle'},
+            { title: 'About', show: 'never', iconName: 'information-outline' },
+            { title: 'Credits', show: 'never', iconName: 'account-circle' },
           ]}
           onActionSelected={this.onActionSelected}
         />

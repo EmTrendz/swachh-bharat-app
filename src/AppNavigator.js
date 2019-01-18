@@ -1,5 +1,5 @@
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
   Dimensions,
@@ -11,8 +11,17 @@ import {
 import DrawerContent from './Navigation/DrawerContent';
 import Toolbar from './Navigation/Toolbar';
 import AppNavigation from './Navigation/AppNavigation';
-import { NavigationActions } from 'react-navigation';
+import {
+  createStackNavigator,
+  createAppContainer,
+  NavigationActions
+} from 'react-navigation';
 import { bgStatusBar, bgDrawer } from './global.styles';
+import Loader from './components/loader';
+import { API } from './utils/AppConstants';
+import settings from './utils/settings';
+import server from './utils/server';
+import routes from './Navigation/routes';
 
 /* getDrawerWidth       Default drawer width is screen width - header width
 * https://material.io/guidelines/patterns/navigation-drawer.html
@@ -26,7 +35,8 @@ export default class AppNavigator extends Component {
     this.drawer = React.createRef();
     this.navigator = React.createRef();
     this.state = {
-      routeStack: ['Home'],
+      routeStack: [],
+      routesLoaded: false
     };
   }
 
@@ -38,30 +48,30 @@ export default class AppNavigator extends Component {
     this.drawer.current.closeDrawer();
   };
 
-  stackHasRoute = route => this.state.routeStack.find(item => item === route);
+  stackHasRoute = route => this.state.routeStack.find(item => item.routeKey === route);
 
-  navigateToRoute = (routeName) => {
-    if (routeName === this.state.routeStack[this.state.routeStack.length - 1]) {
+  navigateToRoute = (routeKey, routeConfig) => {
+    if (routeKey === this.state.routeStack[this.state.routeStack.length - 1]) {
       this.closeDrawer();
       return;
     }
 
-    if (this.stackHasRoute(routeName)) {
+    if (this.stackHasRoute(routeKey)) {
       this.setState({
-        routeStack: this.state.routeStack.slice(0, this.state.routeStack.indexOf(routeName))
-          .concat([routeName]),
+        routeStack: this.state.routeStack.slice(0, this.state.routeStack.indexOf(routeKey))
+          .concat([{ routeKey: routeKey, routeConfig: routeConfig }]),
       });
       this.navigator.current && this.navigator.current.dispatch(
-        NavigationActions.navigate({ routeName })
+        NavigationActions.navigate({ routeName: 'layout', params: routeConfig, key: routeConfig.key })
       );
       this.closeDrawer();
       return;
     }
 
     this.navigator.current && this.navigator.current.dispatch(
-      NavigationActions.navigate({ routeName })
+      NavigationActions.navigate({ routeName: 'layout', params: routeConfig, key: routeConfig.key })
     ) && this.setState({
-      routeStack: this.state.routeStack.concat([routeName]),
+      routeStack: this.state.routeStack.concat([{ routeKey: routeKey, routeConfig: routeConfig }]),
     }, () => this.closeDrawer());
   };
 
@@ -73,15 +83,28 @@ export default class AppNavigator extends Component {
     });
   };
 
+  componentDidMount() {
+    let me = this;
+    server.getData(API.ROUTES).then((_routes) => {
+      settings.setItem('routes', _routes.data);
+      me.setState({
+        routeStack:
+          [{ routeKey: _routes.data[0].key, routeConfig: _routes.data[0], key: _routes.data[0].key }], routesLoaded: true
+      });
+    });
+  }
+
   render() {
-    const { routeStack } = this.state;
-    return (
+    const { routeStack, routesLoaded } = this.state;
+    console.log('**************');
+    console.log(routeStack[routeStack.length - 1]);
+    return routesLoaded && routeStack.length > 0 ? (
       <DrawerLayoutAndroid
         drawerWidth={getDrawerWidth()}
         drawerPosition={DrawerLayoutAndroid.positions.Left}
         renderNavigationView={
           () => <DrawerContent
-            activeRouteName={routeStack[routeStack.length - 1]}
+            activeRouteKey={routeStack[routeStack.length - 1]}
             navigateTo={this.navigateToRoute} />
         }
         drawerBackgroundColor={bgDrawer}
@@ -89,20 +112,20 @@ export default class AppNavigator extends Component {
       >
         <View style={styles.container}>
           <StatusBar
-              translucent
-              backgroundColor={bgStatusBar}
-              animated
+            translucent
+            backgroundColor={bgStatusBar}
+            animated
           />
           <Toolbar
             showMenu={this.openDrawer}
             goBack={this.goBack}
             navigateTo={this.navigateToRoute}
-            actualRouteName={routeStack[routeStack.length - 1]}
+            actualRoute={routeStack[routeStack.length - 1]}
           />
           <AppNavigation ref={this.navigator} />
         </View>
       </DrawerLayoutAndroid>
-    );
+    ) : <Loader />;
   }
 }
 

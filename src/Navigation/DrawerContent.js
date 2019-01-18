@@ -19,8 +19,9 @@ import {
 } from '../global.styles';
 import routes from './routes';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import settings from '../utils/settings';
 
-const DrawerContent = ({ navigateTo, activeRouteName }) => (
+const DrawerContent = ({ navigateTo, activeRouteKey }) => (
   <ScrollView>
     <View style={styles.header}>
       <View style={styles.headerLogo}>
@@ -31,26 +32,31 @@ const DrawerContent = ({ navigateTo, activeRouteName }) => (
         <Text style={styles.drawerEmail}>Swachh Bharat</Text>
       </View>
     </View>
-    {routes.map(route => (
-      <TouchableOpacity
-        key={route.screen}
-        onPress={() => navigateTo(route.name)}
-        style={activeRouteName === route.name ? [styles.drawerItem, styles.activeDrawerItem] : styles.drawerItem}
-      >
-        {route.icon && (
-          <View
-            style={styles.drawerItemLogo}
-          >
-            <Icon
-              name={route.icon}
-              size={30}
-              color={activeRouteName === route.name ? "#fff" : "#000"}
-            />
-          </View>
-        )}
-        <Text style={activeRouteName === route.name ? {color: "#fff"} : {color: "#000"}}>{route.name}</Text>
-      </TouchableOpacity>
-    ))}
+    {settings.getItem('routes').map(route => {
+      console.log(route);
+      return (
+
+        <TouchableOpacity
+          key={route.key}
+          onPress={() => navigateTo("layout", route)}
+          style={activeRouteKey === route.key ? [styles.drawerItem, styles.activeDrawerItem] : styles.drawerItem}
+        >
+          {route.iconn && (
+            <View
+              style={styles.drawerItemLogo}
+            >
+              <Icon
+                name={route.icon}
+                size={30}
+                color={activeRouteKey === route.key ? "#fff" : "#000"}
+              />
+            </View>
+          )}
+          <Text style={activeRouteKey === route.key ? { color: "#fff" } : { color: "#000" }}>{route.text}</Text>
+        </TouchableOpacity>
+      )
+    })
+    }
   </ScrollView>
 );
 
@@ -73,7 +79,7 @@ const styles = StyleSheet.create({
   },
   headerLogo: {
     width: 64,
-    height:64,
+    height: 64,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 32,

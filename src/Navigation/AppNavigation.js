@@ -10,7 +10,7 @@ const routeConfig = {};
 routes.map(route => {
   routeConfig[route.name] = route.screen;
 });
-
+//https://emt-api.emtrendz.com/api/routes/rail/menu
 const MainStack = createStackNavigator(
     {
       ...routeConfig,
