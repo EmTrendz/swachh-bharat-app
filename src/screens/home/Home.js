@@ -2,7 +2,6 @@
 import React from "react";
 import { View, Text, Button } from "react-native";
 import Echarts from 'native-echarts';
-import axios from 'axios';
 import server from "../../utils/server";
 
 export default class HomeScreen extends React.Component {

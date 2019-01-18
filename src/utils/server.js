@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {API} from './AppConstants';
+import { API } from './AppConstants';
+import storage from './storage';
 
 var server = function axiosUtil() {
     //  if($cookies.get('token') && Util.isSameOrigin(config.url)) {
@@ -8,12 +9,14 @@ var server = function axiosUtil() {
     var axiosObj = axios.create({
         baseURL: API.HOST,
         timeout: 5000,
-        withCredentials: true
+        withCredentials: true,
+        credentials: 'include'
     });
     axiosObj.interceptors.request.use(
         config => {
             config.headers['accept-language'] = 'en_US';
-            config.headers['Cookie'] = 'pong=s%3Au6ZvdAP9lQOV1xQvm89HHWha1mtOBG4L.poJmWvxxIVQYq8txprZ2nXpgLXwp1MisEBOVH6BsPkY'
+            console.log(storage.getItem('cookie'));
+            config.headers['Cookie'] = storage.getItem('cookie')
             /*if (!config.headers.Authorization) {
                 const token = localStorage.getItem('token');
                 if (token) {
