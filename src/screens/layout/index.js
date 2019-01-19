@@ -9,6 +9,7 @@ import {
 import server from '../../utils/server';
 import { API } from '../../utils/AppConstants';
 import widgets from '../../widgets';
+import settings from '../../utils/settings';
 class Layout extends React.Component {
     constructor(props) {
         super(props);
@@ -16,25 +17,29 @@ class Layout extends React.Component {
     }
 
     componentDidMount() {
-        let me = this;
+        let me = this, routeConfig;
         const { state } = this.props.navigation;
-
-        server.getData(state.params.components).then((_components) => {
+        if (!state.params) {
+            routeConfig = settings.getHomeRoute();
+        } else {
+            routeConfig = state.params;
+        }
+        server.getData(routeConfig.components).then((_components) => {
             me.setState({
                 components: _components.data,
-                name: state.params.text
+                name: routeConfig.text,
+                queryString: routeConfig.queryString
             });
         });
     }
 
     render() {
-        const { name, components } = this.state;
-
+        const { name, components, queryString } = this.state;
         return (
             <ScrollView contentContainerStyle={styles.view}>
                 <Text style={styles.header1}>{name}</Text>
                 {
-                    this.renderWidgets(components)
+                    this.renderWidgets(components, queryString)
                 }
                 <Text style={styles.photo}>
                     Pigeon Point Lighthouse, Pescadero, California
@@ -46,12 +51,13 @@ class Layout extends React.Component {
         )
     }
 
-    renderWidgets(components) {
+    renderWidgets(components, queryString) {
         return components.map((component) => {
             let Widget = widgets[component.clientWidget];
             return Widget ? <Widget
                 key={component.key}
                 configuration={component}
+                queryString={queryString}
             ></Widget> :
                 <Text key={component.key} style={styles.photo}>
                     Widget Not Available

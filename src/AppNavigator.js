@@ -49,7 +49,7 @@ export default class AppNavigator extends Component {
   };
 
   stackHasRoute = route => this.state.routeStack.find(item => item.routeKey === route);
-
+  
   navigateToRoute = (routeKey, routeConfig) => {
     if (routeKey === this.state.routeStack[this.state.routeStack.length - 1]) {
       this.closeDrawer();
@@ -85,10 +85,13 @@ export default class AppNavigator extends Component {
 
   componentDidMount() {
     let me = this;
+    debugger;
     server.getData(API.ROUTES).then((_routes) => {
-      settings.setItem('routes', _routes.data);
+      settings.setRoutes( _routes.data);
+      let home = settings.getHomeRoute();
+      console.log("Initial Navigation Set to: ", home.key)
       me.setState({
-        routeStack: me.state.routeStack.concat([{ routeKey: "layout", routeConfig: _routes.data[0], key: _routes.data[0].key }]),
+        routeStack: me.state.routeStack.concat([{ routeKey: "layout", routeConfig: home, key: home.key }]),
         routesLoaded: true
       });
     });
@@ -96,7 +99,7 @@ export default class AppNavigator extends Component {
 
   render() {
     const { routeStack, routesLoaded } = this.state;
-    return routesLoaded && routeStack.length > 0 ? (
+    return (routesLoaded && routeStack.length > 0) ? (
       <DrawerLayoutAndroid
         drawerWidth={getDrawerWidth()}
         drawerPosition={DrawerLayoutAndroid.positions.Left}

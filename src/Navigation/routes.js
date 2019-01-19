@@ -8,7 +8,6 @@ import Layout from '../screens/layout';
   To omit the icon just pass null on its value.
 */
 export default [
-  {name: 'Home', screen: HomeScreen, icon: 'home'},
   {name: 'layout', screen: Layout, icon: 'home'},
   {name: 'About', screen: AboutScreen, icon: 'information-outline'},
   {name: 'Credits', screen: CreditsScreen, icon: 'account-circle'},

@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, Button } from "react-native";
 import Echarts from 'native-echarts';
 import server from "../../utils/server";
+import requestBuilder from "../../utils/requestBuilder";
 
 export default class EmtChart extends React.Component {
   constructor(props) {
@@ -13,20 +14,15 @@ export default class EmtChart extends React.Component {
   }
   componentDidMount() {
     let me = this;
-    const { configuration } = this.props;
+    const { configuration, queryString } = this.props;
+    console.log(queryString, configuration.params);
 
     if (configuration && configuration.params && configuration.params.api) {
+      console.log(configuration.params);
+      var reqParams = requestBuilder.buildParams(queryString, configuration)
+      console.log(reqParams);
       // Make a request for a user with a given ID
-      server.postData(configuration.params.api,
-        {
-          brand: 'rail',
-          query: '?&respondedon={"startDate":1547334000000,"endDate":1547938799999}',
-          questionId: 'toilet_clean',
-          surveyId: 'sbm',
-          type: "daily_stats_by_filter",
-          widgetUID: "rail__emt_daily_response_statistics"
-        }
-      )
+      server.postData(configuration.params.api, reqParams)
         .then(function (response) {
           // handle success
           console.log('From EmtChart widget');
@@ -48,6 +44,7 @@ export default class EmtChart extends React.Component {
   render() {
     const option = this.state.chartOption;
     const { configuration } = this.props;
+    console.log(option);
     return configuration ? (
       <View height={300}>
         <Text>{configuration.title}</Text>

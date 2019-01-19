@@ -16,7 +16,6 @@ export default class App extends React.Component {
         let me = this;
         storage.setItem('cookie', '');
         server.getData(`/${BRAND}/ping`).then((brand) => {
-            debugger;
             //setTheme(brand.data.theme);
             console.log(brand);
             // temporary hack 
@@ -24,7 +23,6 @@ export default class App extends React.Component {
 
             server.getData(`/api/user/${BRAND}/me`)
                 .then((usr) => {
-                    debugger;
                     //setTheme(usr.data.theme);
                     console.log(usr);
 
@@ -46,7 +44,6 @@ export default class App extends React.Component {
     }
     render() {
         let { initialized } = this.state;
-        console.log('State Init : ' + initialized);
         return initialized ? <AppNavigator /> : <Loader />;
     }
 }
