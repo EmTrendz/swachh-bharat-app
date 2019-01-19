@@ -1,7 +1,9 @@
 
 import React from "react";
 import { View, Text, StyleSheet, } from "react-native";
-import Echarts from 'native-echarts';
+//import Echarts from 'native-echarts';
+import Echarts from 'react-native-wk-echarts';
+
 import server from "../../utils/server";
 import requestBuilder from "../../utils/requestBuilder";
 
