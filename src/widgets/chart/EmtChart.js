@@ -11,7 +11,7 @@ class EmtChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      chartOption: {}
+      chartOption: undefined
     }
   }
   componentDidMount() {
@@ -40,11 +40,8 @@ class EmtChart extends React.Component {
         });
     }
   }
-  reload() {
-
-  }
   render() {
-    const option = this.state.chartOption;
+    const option = this.state.chartOption || this.props.chartOption || {};
     const { configuration } = this.props;
     console.log(option);
     return configuration ? (
