@@ -1,11 +1,11 @@
 
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, StyleSheet, } from "react-native";
 import Echarts from 'native-echarts';
 import server from "../../utils/server";
 import requestBuilder from "../../utils/requestBuilder";
 
-export default class EmtChart extends React.Component {
+class EmtChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -46,8 +46,8 @@ export default class EmtChart extends React.Component {
     const { configuration } = this.props;
     console.log(option);
     return configuration ? (
-      <View height={300}>
-        <Text>{configuration.title}</Text>
+      <View style={styles.view}>
+        <Text style={styles.header1}>{configuration.title}</Text>
         <Echarts option={option} height={300} />
       </View>
     ) : <View height={300}>
@@ -55,3 +55,21 @@ export default class EmtChart extends React.Component {
       </View>;
   }
 }
+const styles = StyleSheet.create({
+  view: {
+    marginTop: 10,
+    paddingTop: 5,
+    paddingBottom: 1,
+    borderRadius: 4,
+    borderWidth: 0.5,
+    borderColor: '#d6d7da',
+  },
+  header1: {
+    borderBottomWidth: 0.5,
+    borderBottomColor: '#d6d7da',
+    fontSize: 24,
+    padding: 2,
+    fontWeight: 'bold',
+  },
+});
+export default EmtChart;

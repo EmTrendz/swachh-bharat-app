@@ -7,9 +7,11 @@ export default class Loader extends React.Component {
     super(props);
   }
   render() {
+    const { from } = this.props;
     return (
       <View>
-        <Text>Loading....</Text>
+        <Text>Loading.... </Text>
+        <Text>{from}</Text>
       </View>
     );
   }

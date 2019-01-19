@@ -49,7 +49,7 @@ export default class AppNavigator extends Component {
   };
 
   stackHasRoute = route => this.state.routeStack.find(item => item.routeKey === route);
-  
+
   navigateToRoute = (routeKey, routeConfig) => {
     if (routeKey === this.state.routeStack[this.state.routeStack.length - 1]) {
       this.closeDrawer();
@@ -76,20 +76,23 @@ export default class AppNavigator extends Component {
   };
 
   goBack = () => {
+    let updatedStack = this.state.routeStack.slice(0, this.state.routeStack.length - 1);
+    if (updatedStack.length === 0) {
+      let home = settings.getHomeRoute();
+      updatedStack = updatedStack.concat([{ routeKey: "layout", routeConfig: home, key: home.key }]);
+    }
     this.navigator.current && this.navigator.current.dispatch(
       NavigationActions.back()
     ) && this.setState({
-      routeStack: this.state.routeStack.slice(0, this.state.routeStack.length - 1),
+      routeStack: updatedStack,
     });
   };
 
   componentDidMount() {
     let me = this;
-    debugger;
     server.getData(API.ROUTES).then((_routes) => {
-      settings.setRoutes( _routes.data);
+      settings.setRoutes(_routes.data);
       let home = settings.getHomeRoute();
-      console.log("Initial Navigation Set to: ", home.key)
       me.setState({
         routeStack: me.state.routeStack.concat([{ routeKey: "layout", routeConfig: home, key: home.key }]),
         routesLoaded: true
@@ -126,7 +129,7 @@ export default class AppNavigator extends Component {
           <AppNavigation ref={this.navigator} />
         </View>
       </DrawerLayoutAndroid>
-    ) : <Loader />;
+    ) : <Loader from={"AppNavigator"} />;
   }
 }
 

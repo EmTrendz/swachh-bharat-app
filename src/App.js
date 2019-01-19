@@ -44,6 +44,6 @@ export default class App extends React.Component {
     }
     render() {
         let { initialized } = this.state;
-        return initialized ? <AppNavigator /> : <Loader />;
+        return initialized ? <AppNavigator /> : <Loader from={"App"} />;
     }
 }

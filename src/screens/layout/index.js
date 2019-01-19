@@ -37,15 +37,16 @@ class Layout extends React.Component {
         const { name, components, queryString } = this.state;
         return (
             <ScrollView contentContainerStyle={styles.view}>
-                <Text style={styles.header1}>{name}</Text>
-                {
+                 {
                     this.renderWidgets(components, queryString)
                 }
+                <Text style={styles.header1}></Text>
+               
                 <Text style={styles.photo}>
-                    Pigeon Point Lighthouse, Pescadero, California
+                    
                 </Text>
                 <Text style={styles.text}>
-                    Know the most beautiful lighthouses of the world.
+                    
                 </Text>
             </ScrollView>
         )
