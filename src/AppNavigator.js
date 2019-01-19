@@ -88,8 +88,8 @@ export default class AppNavigator extends Component {
     server.getData(API.ROUTES).then((_routes) => {
       settings.setItem('routes', _routes.data);
       me.setState({
-        routeStack:
-          [{ routeKey: _routes.data[0].key, routeConfig: _routes.data[0], key: _routes.data[0].key }], routesLoaded: true
+        routeStack: me.state.routeStack.concat([{ routeKey: "layout", routeConfig: _routes.data[0], key: _routes.data[0].key }]),
+        routesLoaded: true
       });
     });
   }

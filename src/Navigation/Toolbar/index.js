@@ -22,10 +22,10 @@ class Toolbar extends React.Component {
     return (
       <View style={styles.header}>
         <Icon.ToolbarAndroid
-          navIconName={actualRoute.routeKey === 'Home' ? 'menu' : 'arrow-left'}
+          navIconName={actualRoute.routeConfig.href === '/' ? 'menu' : 'arrow-left'}
           titleColor="#fff"
-          title={actualRoute.routeKey}
-          onIconClicked={actualRoute.routeKey === 'Home' ? showMenu : goBack}
+          title={actualRoute.routeConfig.text}
+          onIconClicked={actualRoute.routeConfig.href === '/' ? showMenu : goBack}
           overflowIconName="dots-vertical"
           style={{ height: 56 }}
           actions={[

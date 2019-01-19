@@ -33,9 +33,7 @@ const DrawerContent = ({ navigateTo, activeRouteKey }) => (
       </View>
     </View>
     {settings.getItem('routes').map(route => {
-      console.log(route);
       return (
-
         <TouchableOpacity
           key={route.key}
           onPress={() => navigateTo("layout", route)}
