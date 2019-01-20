@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { Table, Row, Rows, TableWrapper, Col } from 'react-native-table-component';
 import server from '../../utils/server';
-import waterfall from 'async-es/waterfall';
 import async from 'async-es';
 import requestBuilder from '../../utils/requestBuilder';
 

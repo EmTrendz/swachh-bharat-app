@@ -24,7 +24,7 @@ class Layout extends React.Component {
         } else {
             routeConfig = state.params;
         }
-        server.getData(`/${CHANNEL}${routeConfig.components}`).then((_components) => {
+        server.getData(`${routeConfig.components.indexOf('layout') > 0 ? ('/' + CHANNEL + routeConfig.components) : (routeConfig.components)}`).then((_components) => {
             me.setState({
                 components: _components.data,
                 name: routeConfig.text,
