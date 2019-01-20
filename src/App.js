@@ -1,4 +1,4 @@
-const version = 0;
+const version = 1;
 import AppNavigator from './AppNavigator';
 import React from "react";
 import Loader from './components/loader';
@@ -26,7 +26,7 @@ export default class App extends React.Component {
             //setTheme(brand.data.theme);
             console.log(brand);
             // temporary hack 
-            storage.setItem('cookie', 'pong=s%3A6JbV0XgJ9BFl9j4IUBklY_4mqJwS2wVd.cZ%2Btp4x08jfTYCFxakASrUxyXQWqIjZqmAvrA5n2Nz4');
+            //storage.setItem('cookie', 'pong=s%3A6JbV0XgJ9BFl9j4IUBklY_4mqJwS2wVd.cZ%2Btp4x08jfTYCFxakASrUxyXQWqIjZqmAvrA5n2Nz4');
 
             server.getData(`/api/user/${BRAND}/me`)
                 .then((usr) => {
@@ -38,7 +38,7 @@ export default class App extends React.Component {
                         console.log('Set State Init : ');
                         me.setState({
                             initialized: true,
-                            updated: version > brand.data.version
+                            updated: version >= brand.data.version
                         });
                     } else {
                         // show loading screen

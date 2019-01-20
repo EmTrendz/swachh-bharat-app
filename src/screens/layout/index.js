@@ -7,13 +7,13 @@ import {
     Image,
 } from 'react-native';
 import server from '../../utils/server';
-import { API } from '../../utils/AppConstants';
+import { CHANNEL } from '../../utils/AppConstants';
 import widgets from '../../widgets';
 import settings from '../../utils/settings';
 class Layout extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { components: [], name: 'no name' };
+        this.state = { components: [], name: '' };
     }
 
     componentDidMount() {
@@ -24,7 +24,7 @@ class Layout extends React.Component {
         } else {
             routeConfig = state.params;
         }
-        server.getData(routeConfig.components).then((_components) => {
+        server.getData(`/${CHANNEL}${routeConfig.components}`).then((_components) => {
             me.setState({
                 components: _components.data,
                 name: routeConfig.text,
@@ -37,16 +37,16 @@ class Layout extends React.Component {
         const { name, components, queryString } = this.state;
         return (
             <ScrollView contentContainerStyle={styles.view}>
-                 {
+                {
                     this.renderWidgets(components, queryString)
                 }
                 <Text style={styles.header1}></Text>
-               
+
                 <Text style={styles.photo}>
-                    
+
                 </Text>
                 <Text style={styles.text}>
-                    
+
                 </Text>
             </ScrollView>
         )
@@ -61,7 +61,7 @@ class Layout extends React.Component {
                 queryString={queryString}
             ></Widget> :
                 <Text key={component.key} style={styles.photo}>
-                    Widget Not Available
+                    Widget Not Available. {component.clientWidget}
                 </Text>;
         });
     }

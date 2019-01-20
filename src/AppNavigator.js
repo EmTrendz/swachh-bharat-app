@@ -18,10 +18,10 @@ import {
 } from 'react-navigation';
 import { bgStatusBar, bgDrawer } from './global.styles';
 import Loader from './components/loader';
-import { API } from './utils/AppConstants';
+import { API, CHANNEL } from './utils/AppConstants';
 import settings from './utils/settings';
 import server from './utils/server';
-import routes from './Navigation/routes';
+import Analytics from 'appcenter-analytics';
 
 /* getDrawerWidth       Default drawer width is screen width - header width
 * https://material.io/guidelines/patterns/navigation-drawer.html
@@ -51,6 +51,7 @@ export default class AppNavigator extends Component {
   stackHasRoute = route => this.state.routeStack.find(item => item.routeKey === route);
 
   navigateToRoute = (routeKey, routeConfig) => {
+    Analytics.trackEvent('Navigattion', { RouteKey: routeConfig.key, CHANNEL: CHANNEL });
     if (routeKey === this.state.routeStack[this.state.routeStack.length - 1]) {
       this.closeDrawer();
       return;

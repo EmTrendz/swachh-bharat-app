@@ -39,7 +39,7 @@ const DrawerContent = ({ navigateTo, activeRouteKey }) => (
           onPress={() => navigateTo("layout", route)}
           style={activeRouteKey === route.key ? [styles.drawerItem, styles.activeDrawerItem] : styles.drawerItem}
         >
-          {route.iconn && (
+          {route.icon && (
             <View
               style={styles.drawerItemLogo}
             >

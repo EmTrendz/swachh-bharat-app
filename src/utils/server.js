@@ -16,7 +16,7 @@ var server = function axiosUtil() {
         config => {
             config.headers['accept-language'] = 'en_US';
             console.log(storage.getItem('cookie'));
-            config.headers['Cookie'] = storage.getItem('cookie')
+            //config.headers['Cookie'] = storage.getItem('cookie')
             /*if (!config.headers.Authorization) {
                 const token = localStorage.getItem('token');
                 if (token) {

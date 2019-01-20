@@ -17,23 +17,23 @@ class EmtChart extends React.Component {
   componentDidMount() {
     let me = this;
     const { configuration, queryString } = this.props;
-    console.log(queryString, configuration.params);
+    //console.log(queryString, configuration.params);
 
     if (configuration && configuration.params && configuration.params.api) {
-      console.log(configuration.params);
+      //console.log(configuration.params);
       var reqParams = requestBuilder.buildParams(queryString, configuration)
-      console.log(reqParams);
+      //console.log(reqParams);
       // Make a request for a user with a given ID
       server.postData(configuration.params.api, reqParams)
         .then(function (response) {
           // handle success
-          console.log('From EmtChart widget');
-          console.log(response);
+          //  console.log('From EmtChart widget');
+          //  console.log(response);
           me.setState({ chartOption: response.data.chartOptions });
         })
         .catch(function (error) {
           // handle error
-          console.log(error);
+          //console.log(error);
         })
         .then(function () {
           // always executed

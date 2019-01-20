@@ -5,7 +5,7 @@ export const CHANNEL = Platform.OS;
 
 export let API = {
     HOST: `http://emt-api.emtrendz.com`,
-    ROUTES: `/api/routes/${BRAND}/menu`,
-    LEFT_LAYOUTS: `/api/layout/${BRAND}/left`,
-    TOP_LAYOUTS: `/api/layout/${BRAND}/top`
+    ROUTES: `/${CHANNEL}/api/routes/${BRAND}/menu`,
+    LEFT_LAYOUTS: `/${CHANNEL}/api/layout/${BRAND}/left`,
+    TOP_LAYOUTS: `/${CHANNEL}/api/layout/${BRAND}/top`
 };
