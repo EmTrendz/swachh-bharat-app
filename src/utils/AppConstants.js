@@ -1,10 +1,11 @@
-const brand = 'rail'
+import { Platform } from 'react-native';
 
-export let BRAND = brand;
+export const BRAND = 'rail';
+export const CHANNEL = Platform.OS;
 
 export let API = {
-    HOST: 'http://emt-api.emtrendz.com',
-    ROUTES: `/api/routes/${brand}/menu`,
-    LEFT_LAYOUTS: `/api/layout/${brand}/left`,
-    TOP_LAYOUTS: `/api/layout/${brand}/top`
+    HOST: `http://emt-api.emtrendz.com`,
+    ROUTES: `/api/routes/${BRAND}/menu`,
+    LEFT_LAYOUTS: `/api/layout/${BRAND}/left`,
+    TOP_LAYOUTS: `/api/layout/${BRAND}/top`
 };

@@ -1,21 +1,28 @@
+const version = 0;
 import AppNavigator from './AppNavigator';
 import React from "react";
 import Loader from './components/loader';
 import server from "./utils/server";
-import { BRAND } from './utils/AppConstants';
+import { BRAND, CHANNEL } from './utils/AppConstants';
 import storage from './utils/storage';
+import {
+    View,
+    Alert,
+    Linking
+} from 'react-native';
 export default class App extends React.Component {
     constructor(props) {
         super(props);
         let me = this;
         me.state = {
-            initialized: false
+            initialized: false,
+            updated: true,
         };
     }
     componentDidMount() {
         let me = this;
         storage.setItem('cookie', '');
-        server.getData(`/${BRAND}/ping`).then((brand) => {
+        server.getData(`/${CHANNEL}/${BRAND}/ping`).then((brand) => {
             //setTheme(brand.data.theme);
             console.log(brand);
             // temporary hack 
@@ -30,7 +37,8 @@ export default class App extends React.Component {
                     if (brand.message !== "Network Error") {
                         console.log('Set State Init : ');
                         me.setState({
-                            initialized: true
+                            initialized: true,
+                            updated: version > brand.data.version
                         });
                     } else {
                         // show loading screen
@@ -43,7 +51,24 @@ export default class App extends React.Component {
         });
     }
     render() {
-        let { initialized } = this.state;
-        return initialized ? <AppNavigator /> : <Loader from={"App"} />;
+        let { initialized, updated } = this.state;
+        let component = initialized ? <AppNavigator /> : <Loader from={"App"} />;
+        if (!updated) {
+            component = <View></View>;
+            // Works on both iOS and Android
+            Alert.alert(
+                'Update available',
+                'New version of application is available, please update to use this application.',
+                [
+                    {
+                        text: 'Update', onPress: () => {
+                            Linking.openURL("market://details?id=com.emtrendz.swachh_bharat").catch(err => console.error('An error occurred', err));
+                        }
+                    },
+                ],
+                { cancelable: false }
+            )
+        }
+        return component;
     }
 }
