@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 import { View, Text, Button } from 'native-base';
 import async from 'async-es';
 import server from '../../utils/server';
-import CodePush from 'react-native-code-push';
+import RNRestart from 'react-native-restart'; // Import package from node modules
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -129,14 +129,12 @@ class EmtForm extends Component {
         console.log(action)
         const formValues = this.formGenerator.getValues();
         console.log('FORM VALUES', formValues);
-
+        RNRestart.Restart();
         switch (action.type) {
             case "post": {
                 let api = action.api;//formURL(action.api, action.params, initialVal);
                 server.postData(api, formValues).then((res) => {
                     console.log(res.data);
-                    
-CodePush.restartApp();
                 })
             }
         }
