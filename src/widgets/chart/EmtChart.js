@@ -16,13 +16,15 @@ class EmtChart extends React.Component {
     }
   }
   componentDidMount() {
+    this.fetchData();
+  }
+  fetchData() {
     let me = this;
     const { configuration, queryString } = this.props;
     //console.log(queryString, configuration.params);
-
     if (configuration && configuration.params && configuration.params.api) {
       //console.log(configuration.params);
-      var reqParams = requestBuilder.buildParams(queryString, configuration)
+      var reqParams = requestBuilder.buildParams(queryString, configuration);
       //console.log(reqParams);
       // Make a request for a user with a given ID
       server.postData(configuration.params.api, reqParams)
@@ -32,7 +34,7 @@ class EmtChart extends React.Component {
           //  console.log(response);
           me.setState({
             chartOption: response.data.chartOptions,
-            legends: response.data.chartOptions && response.data.chartOptions.series ? response.data.chartOptions.series[0].data : []
+            legends: response.data.legends ? response.data.legends : []
           });
         })
         .catch(function (error) {
@@ -40,21 +42,25 @@ class EmtChart extends React.Component {
           //console.log(error);
         })
         .then(function () {
-          // always executed
+          if (configuration.reloadInterval && configuration.reloadInterval > 1000) {
+            setTimeout(() => {
+              me.fetchData.call(me);
+            }, configuration.reloadInterval)
+          }
         });
     }
   }
+
   render() {
     const option = this.state.chartOption || this.props.chartOption || {};
     const legends = this.state.legends
     const { configuration } = this.props;
-    console.log(option);
     return configuration ? (
       <View style={styles.view}>
         <Text style={styles.header1}>{configuration.title}</Text>
         <Echarts option={option} height={300} />
-        {legends && legends.length > 0 ? (<View style={{ flex: 1, flexDirection: 'row' }} >{legends.map(legend => {
-          return <View style={{ flex: 1 / legends.length, borderWidth: 1, height: 50, backgroundColor: 'powderblue', alignItems: 'center', justifyContent: 'center' }}>
+        {legends && legends.length > 0 ? (<View style={{ flex: 1, flexDirection: 'row' }} >{legends.map((legend, idx) => {
+          return <View key={`${legend.key}__${idx}`} style={{ flex: 1 / legends.length, borderWidth: 1, height: 50, backgroundColor: 'powderblue', alignItems: 'center', justifyContent: 'center' }}>
             <Text>{legend.name}</Text>
             <Text>{legend.value}</Text>
           </View>

@@ -166,8 +166,8 @@ class EmtForm extends Component {
                 }
                 <View style={styles.submitButton}>
                     {actions && actions.length > 0 ?
-                        actions.map((action) =>
-                            <Button block onPress={() => this.login(action)}>
+                        actions.map((action,idx) =>
+                            <Button key={`action_${idx}`} block onPress={() => this.login(action)}>
                                 <Text>{action.text}</Text>
                             </Button>)
                         : <Text></Text>
