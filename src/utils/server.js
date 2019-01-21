@@ -15,14 +15,7 @@ var server = function axiosUtil() {
     axiosObj.interceptors.request.use(
         config => {
             config.headers['accept-language'] = 'en_US';
-            console.log(storage.getItem('cookie'));
-            //config.headers['Cookie'] = storage.getItem('cookie')
-            /*if (!config.headers.Authorization) {
-                const token = localStorage.getItem('token');
-                if (token) {
-                    config.headers.Authorization = `Bearer ${token}`;
-                }
-            }*/
+            config.headers['emt_key'] = storage.getUserToken();
             return config;
         },
         error => {

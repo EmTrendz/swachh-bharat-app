@@ -2,20 +2,28 @@ import SyncStorage from 'sync-storage';
 
 
 var Storage = function () {
-    
+    retrieveItem = (key) => {
+        console.log('getting from storage ', SyncStorage.get(key))
+        return SyncStorage.get(key);
+    }
+    storeItem = (key, value) => {
+        console.log('Setting in storage ', key, value)
+        return SyncStorage.set(key, value);
+    }
     return {
-        getItem(key) {
-            console.log('getting from storage ', SyncStorage.get(key))
-            return SyncStorage.get(key);
+        init: async () => {
+            console.log('Setting AsyncStorage is ready!', data);
+            const data = await SyncStorage.init();
+            console.log('AsyncStorage is ready!', data);
         },
-        setItem(key, value) {
-            console.log('Setting in storage ', key, value)
-            SyncStorage.set(key, value);
+        getUserToken: () => {
+            return retrieveItem('token');
+        },
+        setUserToken: (token) => {
+            return storeItem('token', token);
         }
+
     }
 }
 
-    console.log('Setting AsyncStorage is ready!', data);
-    const data = SyncStorage.init();
-    console.log('AsyncStorage is ready!', data);
 export default Storage();

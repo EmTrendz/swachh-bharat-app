@@ -6,6 +6,8 @@ import { View, Text, Button } from 'native-base';
 import async from 'async-es';
 import server from '../../utils/server';
 import RNRestart from 'react-native-restart'; // Import package from node modules
+import storage from '../../utils/storage';
+import settings from '../../utils/settings';
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -94,7 +96,7 @@ class EmtForm extends Component {
                 }
             }, function (err, results) {
                 // results is now equals to: {one: 1, two: 2}
-                console.log(results, results.formFields);
+                //console.log(results, results.formFields);
                 let fields = [], actions = [];
                 results.formFields.fields.forEach((field) => {
                     fields.push({
@@ -105,8 +107,8 @@ class EmtForm extends Component {
                         label: field.name,
                     })
                 })
-                console.log(results);
-                console.log(JSON.stringify(results));
+                //console.log(results);
+                //console.log(JSON.stringify(results));
                 // results.rowData.data.forEach((dataItem) => {
                 //     let dataArray = [];
                 //     tableHead.forEach(head => {
@@ -126,15 +128,20 @@ class EmtForm extends Component {
         }
     }
     login(action) {
-        console.log(action)
+        //console.log(action)
         const formValues = this.formGenerator.getValues();
-        console.log('FORM VALUES', formValues);
-        RNRestart.Restart();
+        //console.log('FORM VALUES', formValues);
+
         switch (action.type) {
             case "post": {
                 let api = action.api;//formURL(action.api, action.params, initialVal);
                 server.postData(api, formValues).then((res) => {
-                    console.log(res.data);
+                    if (res.data.login && res.data.emt_key && res.data.emt_key.length > 0) {
+                        settings.loginUser(res.data);
+                    }
+                    if (res.data.action === 'relaunch') {
+                        RNRestart.Restart();
+                    }
                 })
             }
         }
@@ -142,8 +149,12 @@ class EmtForm extends Component {
     }
     render() {
         const { fields, actions } = this.state;
+        const { configuration } = this.props;
+
         return (
             <View style={styles.view}>
+                <Text style={styles.header1}>{configuration.title}</Text>
+
                 {fields && fields.length > 0 ? <View>
                     <GenerateForm
                         ref={(c) => {

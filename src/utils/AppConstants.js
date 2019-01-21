@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 
-export const BRAND = 'rail';
+export const BRAND = 'sbm';
 export const CHANNEL = Platform.OS;
 
 export let API = {

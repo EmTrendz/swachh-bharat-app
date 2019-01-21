@@ -20,6 +20,8 @@ import {
 import routes from './routes';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import settings from '../utils/settings';
+import storage from '../utils/storage';
+import RNRestart from 'react-native-restart'; // Import package from node modules
 
 const DrawerContent = ({ navigateTo, activeRouteKey }) => (
   <ScrollView>
@@ -28,7 +30,7 @@ const DrawerContent = ({ navigateTo, activeRouteKey }) => (
         <Icon name="lighthouse" size={50} color={drawerLogoColor} />
       </View>
       <View style={styles.subTitle}>
-        <Text style={styles.drawerTitle}>EmTrendz</Text>
+        <Text style={styles.drawerTitle}>{settings.getUser() ? settings.getUser().displayName : "Em Trendz"}</Text>
         <Text style={styles.drawerEmail}>Swachh Bharat</Text>
       </View>
     </View>
@@ -54,6 +56,26 @@ const DrawerContent = ({ navigateTo, activeRouteKey }) => (
         </TouchableOpacity>
       )
     })
+    }
+    {settings.getUser().provider && settings.getUser().provider.length > 0 ?
+      <TouchableOpacity
+        key={'logout'}
+        onPress={() => { 
+          settings.logoutUser();
+         }}
+         style={styles.drawerItem}
+      >
+        <View
+          style={styles.drawerItemLogo}
+        >
+          <Icon
+            name={'logout'}
+            size={30}
+            color={{ color: "#ff0000" }}
+          />
+        </View>
+        <Text style={{ color: "#ff0000" }}>Logout</Text>
+      </TouchableOpacity> : null
     }
   </ScrollView>
 );

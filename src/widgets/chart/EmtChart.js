@@ -11,7 +11,8 @@ class EmtChart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      chartOption: undefined
+      chartOption: undefined,
+      legends: []
     }
   }
   componentDidMount() {
@@ -29,7 +30,10 @@ class EmtChart extends React.Component {
           // handle success
           //  console.log('From EmtChart widget');
           //  console.log(response);
-          me.setState({ chartOption: response.data.chartOptions });
+          me.setState({
+            chartOption: response.data.chartOptions,
+            legends: response.data.chartOptions && response.data.chartOptions.series ? response.data.chartOptions.series[0].data : []
+          });
         })
         .catch(function (error) {
           // handle error
@@ -42,12 +46,25 @@ class EmtChart extends React.Component {
   }
   render() {
     const option = this.state.chartOption || this.props.chartOption || {};
+    const legends = this.state.legends
     const { configuration } = this.props;
     console.log(option);
     return configuration ? (
       <View style={styles.view}>
         <Text style={styles.header1}>{configuration.title}</Text>
         <Echarts option={option} height={300} />
+        {legends && legends.length > 0 ? (<View style={{ flex: 1, flexDirection: 'row' }} >{legends.map(legend => {
+          return <View style={{ flex: 1 / legends.length, borderWidth: 1, height: 50, backgroundColor: 'powderblue', alignItems: 'center', justifyContent: 'center' }}>
+            <Text>{legend.name}</Text>
+            <Text>{legend.value}</Text>
+          </View>
+        })}
+        </View>) : null
+        }
+
+
+
+
       </View>
     ) : <View height={300}>
         <Text>Issue in configuration</Text>

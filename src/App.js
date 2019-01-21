@@ -10,6 +10,7 @@ import {
     Alert,
     Linking
 } from 'react-native';
+import settings from './utils/settings';
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -19,9 +20,9 @@ export default class App extends React.Component {
             updated: true,
         };
     }
-    componentDidMount() {
+    async componentDidMount() {
         let me = this;
-        storage.setItem('cookie', '');
+        storage.init();
         server.getData(`/${CHANNEL}/${BRAND}/ping`).then((brand) => {
             //setTheme(brand.data.theme);
             console.log(brand);
@@ -31,8 +32,8 @@ export default class App extends React.Component {
             server.getData(`/api/user/${BRAND}/me`)
                 .then((usr) => {
                     //setTheme(usr.data.theme);
-                    console.log(usr);
-
+                    //console.log(usr);
+                    settings.setUser(usr.data);    
 
                     if (brand.message !== "Network Error") {
                         console.log('Set State Init : ');
