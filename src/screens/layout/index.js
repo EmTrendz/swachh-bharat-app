@@ -36,7 +36,7 @@ class Layout extends React.Component {
     render() {
         const { name, components, queryString } = this.state;
         return (
-            <ScrollView contentContainerStyle={styles.view}>
+            <ScrollView contentContainerStyle={components.length === 1 ? styles.viewFullScreen : styles.view}>
                 {
                     this.renderWidgets(components, queryString)
                 }
@@ -71,6 +71,11 @@ const styles = StyleSheet.create({
     view: {
         marginTop: 10,
         padding: 20
+
+    },
+    viewFullScreen: {
+        flex: 1
+
     },
     img: {
         width: 300,

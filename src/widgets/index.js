@@ -7,6 +7,6 @@ export default {
   "emt-dashboard-chart": EmtChart,
   "list-items": EmtTable,
   "form": EmtForm,
-  "createListItem": EmtForm
-
+  "createListItem": EmtForm,
+  "emt-dashboard-map": EmtMap
 };
