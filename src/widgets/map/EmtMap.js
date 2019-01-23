@@ -6,26 +6,28 @@ import requestBuilder from '../../utils/requestBuilder';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
-    height: 600,
-    width: 400,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     justifyContent: 'flex-end',
-    alignItems: 'center',
-    flex: 1
+    alignItems: 'center'
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
-    height: 600,
-    width: 400,
-    flex: 1
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });
 
-const LATITUDE_DELTA = 0.01;
-const LONGITUDE_DELTA = 0.01;
+const LATITUDE_DELTA = 0.1;
+const LONGITUDE_DELTA = 0.1;
 
 const initialRegion = {
-  latitude: -37.78825,
+  latitude: 37.78825,
   longitude: -122.4324,
   latitudeDelta: 0.0922,
   longitudeDelta: 0.0421,
@@ -36,10 +38,11 @@ export default class EmtMap extends Component {
 
   state = {
     region: {
-      latitude: -37.78825,
+      latitude: 37.78825,
       longitude: -122.4324,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
+      forceRefresh: 1
     },
     ready: true,
     filteredMarkers: []
@@ -47,8 +50,10 @@ export default class EmtMap extends Component {
 
   setRegion(region) {
     if (this.state.ready) {
-      setTimeout(() => this.map.mapview.animateToRegion(region), 10);
+      //setTimeout(() => this.map.mapview.animateToRegion(region), 10);
+      this.setState({ region: region, forceRefresh: Math.floor(Math.random() * 100) });
     }
+
     //this.setState({ region });
   }
 
@@ -138,6 +143,7 @@ export default class EmtMap extends Component {
 
   onRegionChangeComplete = (region) => {
     console.log('onRegionChangeComplete', region);
+    this.setRegion(region);
   };
 
 
@@ -147,11 +153,10 @@ export default class EmtMap extends Component {
     const { children, renderMarker, markers } = this.props;
     return <View style={styles.container}>
       <MapView
-        provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+        key={"mapv"}
         showsUserLocation
         ref={map => { this.map = map }}
-        data={markers}
-        initialRegion={initialRegion}
+        region={region}
         renderMarker={renderMarker}
         onMapReady={this.onMapReady}
         showsMyLocationButton={false}
@@ -160,6 +165,7 @@ export default class EmtMap extends Component {
         style={StyleSheet.absoluteFill}
         textStyle={{ color: '#bc8b00' }}
         containerStyle={{ backgroundColor: 'white', borderColor: '#BC8B00' }}
+        zoomControlEnabled
       >
         {devices && devices.length > 0 ? devices.map(device => <Marker key={device.device}
           coordinate={{
