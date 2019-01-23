@@ -1,10 +1,23 @@
 
 import React from "react";
-import { View, Text, Button } from "react-native";
-import Echarts from 'native-echarts';
+import { View, Text, Button , StyleSheet} from "react-native";
+//import Echarts from 'native-echarts';
 import server from "../../utils/server";
-import EmtChart from "../../widgets/chart/EmtChart";
+//import EmtChart from "../../widgets/chart/EmtChart";
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 
+const styles = StyleSheet.create({
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    height: 400,
+    width: 400,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+ });
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     title: 'Welcome'
@@ -13,7 +26,7 @@ export default class HomeScreen extends React.Component {
     super(props);
     this.state = {
       chartOption: {}
-   }
+    }
     //   this.loadData();
   }
   componentDidMount() {
@@ -34,7 +47,7 @@ export default class HomeScreen extends React.Component {
       .then(function (response) {
         // handle success
         console.log(response);
-        me.setState({chartOption:response.data.chartOptions});
+        me.setState({ chartOption: response.data.chartOptions });
       })
       .catch(function (error) {
         // handle error
@@ -49,14 +62,19 @@ export default class HomeScreen extends React.Component {
     const option = this.state.chartOption;
 
     return (
-      <View>
-        <Echarts option={option} height={300} />
-        <Button
-          title="Go to Jane's profile"
-          onPress={() => navigate('Profile', { name: 'Jane' })}
-        />
-        <EmtChart></EmtChart>
-      </View>
+      <View style={styles.container}>
+      <MapView
+        provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+        style={styles.map}
+        region={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        }}
+      >
+      </MapView>
+    </View>
     );
   }
 }
