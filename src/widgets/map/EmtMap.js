@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import server from '../../utils/server';
 import async from 'async-es';
 import requestBuilder from '../../utils/requestBuilder';
@@ -116,13 +116,13 @@ export default class EmtMap extends Component {
           switch (error.code) {
             case 1:
               if (Platform.OS === "ios") {
-                Alert.alert("", "Para ubicar tu locación habilita permiso para la aplicación en Ajustes - Privacidad - Localización");
+                Alert.alert("", "To locate your location enable permission for the application in Settings - Privacy - Location");
               } else {
-                Alert.alert("", "Para ubicar tu locación habilita permiso para la aplicación en Ajustes - Apps - ExampleApp - Localización");
+                Alert.alert("", "To locate your location enable permission for the application in Settings - Apps - Swachh Bharat - Location");
               }
               break;
             default:
-              Alert.alert("", "Error al detectar tu locación");
+              Alert.alert("", "Error in detecting  location");
           }
         }
       );
