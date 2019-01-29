@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "85907062409",
+    "firebase_url": "https://emt-swachh-bharat.firebaseio.com",
+    "project_id": "emt-swachh-bharat",
+    "storage_bucket": "emt-swachh-bharat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:85907062409:android:a6034be62c3026c1",
+        "android_client_info": {
+          "package_name": "com.emtrendz.swachh_bharat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "85907062409-fvggm7p6rocoj9o51n1j61befs8skst4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHmsDHZ9V8FoDqGZhvp43_FEq32NiTaHk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
