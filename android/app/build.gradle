@@ -155,8 +155,8 @@ dependencies {
    implementation project(':react-native-fcm')
     implementation 'com.google.firebase:firebase-messaging'
    implementation 'com.google.firebase:firebase-core:16.0.1'
-   implementation 'com.google.android.gms:play-services-base:12.0.0'
-   implementation 'com.google.android.gms:play-services-maps:12.0.0'
+   implementation 'com.google.android.gms:play-services-base:16.0.0'
+   implementation 'com.google.android.gms:play-services-maps:16.0.0'
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-gesture-handler')
     implementation project(':appcenter-crashes')
