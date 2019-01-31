@@ -40,16 +40,17 @@ export default class EmtMap extends Component {
     region: {
       latitude: 37.78825,
       longitude: -122.4324,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01,
       forceRefresh: 1
     },
-    ready: true,
+    ready: false,
     filteredMarkers: []
   };
 
   setRegion(region) {
     if (this.state.ready) {
+      //alert('dffdfdf');
       //setTimeout(() => this.map.mapview.animateToRegion(region), 10);
       this.setState({ region: region, forceRefresh: Math.floor(Math.random() * 100) });
     }
@@ -61,7 +62,8 @@ export default class EmtMap extends Component {
     super(props);
     this.state = { devices: [] };
   }
-  componentDidMount() {
+  //componentDidMount() {
+  loadMapData() {
     this.fetchData();
     console.log('Component did mount');
     this.getCurrentPosition();
@@ -134,6 +136,7 @@ export default class EmtMap extends Component {
   onMapReady = (e) => {
     if (!this.state.ready) {
       this.setState({ ready: true });
+      this.loadMapData();
     }
   };
 

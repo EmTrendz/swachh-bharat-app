@@ -1,6 +1,8 @@
 
 import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View, Text, StyleSheet, ScrollView, ActivityIndicator
+} from "react-native";
 import EmtChart from "../../widgets/chart/EmtChart";
 
 class Loader extends React.Component {
@@ -44,12 +46,16 @@ class Loader extends React.Component {
         }
       ]
     };
-    ;
+
     return (
       <ScrollView contentContainerStyle={styles.view}>
-        <View>
-          {/* <Text>Loading....</Text>
-          <Text>{from}</Text> */}
+        <View style={[styles.container, styles.horizontal]}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+        <View style={{ opacity: 0 }}>
+          <EmtChart chartOption={option} configuration={{ title: 'Loading....' }}></EmtChart>
+          <EmtChart chartOption={option} configuration={{ title: 'Loading....' }}></EmtChart>
+          <EmtChart chartOption={option} configuration={{ title: 'Loading....' }}></EmtChart>
           <EmtChart chartOption={option} configuration={{ title: 'Loading....' }}></EmtChart>
         </View>
       </ScrollView>
@@ -62,5 +68,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
     padding: 20
   },
+  container: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
+  }
 });
 export default Loader;
