@@ -28,10 +28,10 @@ class Toolbar extends React.Component {
           onIconClicked={actualRoute.routeConfig.href === '/' ? showMenu : goBack}
           overflowIconName="dots-vertical"
           style={{ height: 56 }}
-          actions={[
-            { title: 'About', show: 'never', iconName: 'information-outline' },
-            { title: 'Credits', show: 'never', iconName: 'account-circle' },
-          ]}
+          // actions={[
+          //   { title: 'About', show: 'never', iconName: 'information-outline' },
+          //   { title: 'Credits', show: 'never', iconName: 'account-circle' },
+          // ]}
           onActionSelected={this.onActionSelected}
         />
       </View>

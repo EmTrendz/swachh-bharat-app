@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Alert } from 'react-native';
+import { StyleSheet, View, Alert, Text } from 'react-native';
 import server from '../../utils/server';
 import async from 'async-es';
 import requestBuilder from '../../utils/requestBuilder';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
+const markerMap = {
+  clean: require('../../assets/map_markers/clean.png'),
+  ok: require('../../assets/map_markers/ok.png'),
+  dirty: require('../../assets/map_markers/dirty.png')
+}
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
@@ -176,8 +181,9 @@ export default class EmtMap extends Component {
             longitude: device.info.lng
           }}
           title={device.info.name}
-          description={"description"}
-        />) : null}
+          description={`Stattus: ${device.status}`}
+          image={markerMap[device.status]}
+        ></Marker>) : null}
 
       </MapView>
     </View>
